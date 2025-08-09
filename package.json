@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "echo \"No tests specified\" && exit 0",
+    "test:ci": "echo \"No tests specified\" && exit 0",
     "clean": "rm -rf .next out node_modules/.cache"
   },
   "dependencies": {
