@@ -1,0 +1,332 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Next.js Project Setup with App Router and Core Dependencies",
+        "description": "Initialize Next.js project with App Router, configure TailwindCSS, ShadCN, and set up basic project structure",
+        "details": "Create Next.js 14+ project with App Router enabled. Install and configure TailwindCSS, ShadCN UI components, TypeScript, ESLint, and Prettier. Set up folder structure: app/(routes), components/ui, lib/utils, types/, and public/. Configure next.config.js for PDF serving. Install Zustand for state management and React Query for server state.",
+        "testStrategy": "Verify project builds successfully, all dependencies install without conflicts, and basic routing works. Test ShadCN component imports and TailwindCSS styling.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize Next.js 14+ Project with App Router",
+            "description": "Create a new Next.js project with App Router enabled and TypeScript configuration",
+            "dependencies": [],
+            "details": "Run 'npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir' to initialize the project. Ensure App Router is enabled by default. Configure TypeScript strict mode and update tsconfig.json with custom path mappings for '@/' alias. Set up initial project metadata in package.json.",
+            "status": "pending",
+            "testStrategy": "Verify project builds successfully with 'npm run build', development server starts with 'npm run dev', and TypeScript compilation works without errors"
+          },
+          {
+            "id": 2,
+            "title": "Configure TailwindCSS and Install ShadCN UI",
+            "description": "Set up TailwindCSS with custom configuration and install ShadCN UI component library",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Configure tailwind.config.js with custom theme, colors, and animations. Install ShadCN CLI with 'npx shadcn@latest init'. Set up components.json configuration file. Install essential ShadCN components like Button, Card, Input, and Dialog. Configure CSS variables in globals.css for theming support.",
+            "status": "pending",
+            "testStrategy": "Test TailwindCSS classes work in components, verify ShadCN components import and render correctly, and validate dark/light theme switching functionality"
+          },
+          {
+            "id": 3,
+            "title": "Set Up Project Folder Structure and Development Tools",
+            "description": "Create organized folder structure and configure ESLint, Prettier, and development utilities",
+            "dependencies": [
+              "1.1"
+            ],
+            "details": "Create folder structure: app/(routes)/, components/ui/, lib/utils/, types/, public/. Set up lib/utils.ts with cn() utility for class merging. Configure .eslintrc.json with Next.js rules and TypeScript support. Set up .prettierrc with consistent formatting rules. Create types/index.ts for global type definitions.",
+            "status": "pending",
+            "testStrategy": "Verify ESLint catches common errors, Prettier formats code consistently, folder imports work with TypeScript path resolution, and utils functions are accessible throughout the project"
+          },
+          {
+            "id": 4,
+            "title": "Install and Configure State Management Dependencies",
+            "description": "Set up Zustand for client state and React Query for server state management",
+            "dependencies": [
+              "1.2"
+            ],
+            "details": "Install Zustand with 'npm install zustand'. Create stores/ directory with example store structure. Install React Query v4+ with 'npm install @tanstack/react-query @tanstack/react-query-devtools'. Set up QueryClient configuration in lib/react-query.ts. Create providers/query-provider.tsx for app-wide Query client setup.",
+            "status": "pending",
+            "testStrategy": "Test Zustand store creation and state updates, verify React Query provider wraps app correctly, validate query devtools work in development, and confirm both state management systems work independently"
+          },
+          {
+            "id": 5,
+            "title": "Configure Next.js for PDF Serving and Production Setup",
+            "description": "Configure next.config.js for PDF file serving and set up production-ready configurations",
+            "dependencies": [
+              "1.3",
+              "1.4"
+            ],
+            "details": "Create next.config.js with static file serving configuration for PDFs. Add webpack configuration for PDF handling if needed. Set up environment variables structure with .env.local and .env.example files. Configure output settings for deployment. Add scripts for build, lint, and type checking in package.json. Set up basic middleware.ts if needed for PDF routing.",
+            "status": "pending",
+            "testStrategy": "Test PDF files serve correctly from public directory, verify environment variables load properly, validate production build completes without errors, and confirm all npm scripts execute successfully"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Database Schema and Models Setup",
+        "description": "Set up PostgreSQL database with Paper, UserProgress, and LearningPath models using Prisma ORM",
+        "details": "Install and configure Prisma ORM. Create database schema for Paper (id, title, authors, year, abstract, pdf_url, arxiv_id, doi, domain_tags, difficulty_level, citations, referenced_by), UserProgress (user_id, paper_id, status, started_at, completed_at, bookmarks, notes), and LearningPath (id, name, description, domain, difficulty_range, papers, prerequisites). Set up database connection, migrations, and seed data with sample papers.",
+        "testStrategy": "Run database migrations successfully, seed test data, and verify all CRUD operations work for each model. Test database constraints and relationships.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Install and Configure Prisma ORM",
+            "description": "Set up Prisma ORM with PostgreSQL database connection and initial configuration",
+            "dependencies": [],
+            "details": "Install Prisma CLI and client with 'npm install prisma @prisma/client' and 'npm install -D prisma'. Initialize Prisma with 'npx prisma init' to create prisma/ folder and .env file. Configure DATABASE_URL in .env with PostgreSQL connection string. Set up prisma/schema.prisma with generator and datasource blocks. Configure Prisma client in lib/prisma.ts with singleton pattern for Next.js.",
+            "status": "pending",
+            "testStrategy": "Verify Prisma generates client successfully, database connection works, and Prisma client can be imported throughout the application"
+          },
+          {
+            "id": 2,
+            "title": "Create Paper Model Schema",
+            "description": "Define the Paper model with all required fields for academic paper storage",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create Paper model in schema.prisma with fields: id (String, @id, @default(cuid())), title (String), authors (String[]), year (Int), abstract (String), pdf_url (String), arxiv_id (String?), doi (String?), domain_tags (String[]), difficulty_level (Int), citations (String[]), referenced_by (String[]). Add proper indexes on searchable fields like title, authors, and domain_tags. Include created_at and updated_at timestamps.",
+            "status": "pending",
+            "testStrategy": "Run 'npx prisma db push' successfully, verify all fields are created in database, and test basic CRUD operations on Paper model"
+          },
+          {
+            "id": 3,
+            "title": "Create UserProgress Model Schema",
+            "description": "Define UserProgress model for tracking individual user's paper reading progress",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create UserProgress model with fields: id (String, @id, @default(cuid())), user_id (String), paper_id (String), status (enum: TO_READ, READING, COMPLETED), started_at (DateTime?), completed_at (DateTime?), bookmarks (Json?), notes (String?). Add relation to Paper model and create compound unique constraint on user_id and paper_id. Include created_at and updated_at fields.",
+            "status": "pending",
+            "testStrategy": "Verify UserProgress model creates successfully, test relationship with Paper model, and validate unique constraint prevents duplicate user-paper combinations"
+          },
+          {
+            "id": 4,
+            "title": "Create LearningPath Model Schema",
+            "description": "Define LearningPath model for organizing papers into curated learning sequences",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Create LearningPath model with fields: id (String, @id, @default(cuid())), name (String), description (String), domain (String), difficulty_range (Json with min/max values), papers (String[] for paper IDs), prerequisites (String[] for prerequisite path IDs), created_by (String for user ID), is_public (Boolean), created_at (DateTime), updated_at (DateTime). Add indexes on domain and created_by fields for efficient querying.",
+            "status": "pending",
+            "testStrategy": "Run database migration successfully, verify all LearningPath fields are created, and test querying paths by domain and creator"
+          },
+          {
+            "id": 5,
+            "title": "Run Migrations and Create Sample Seed Data",
+            "description": "Execute database migrations and populate with sample data for development and testing",
+            "dependencies": [
+              "2.2",
+              "2.3",
+              "2.4"
+            ],
+            "details": "Run 'npx prisma migrate dev --name init' to create initial migration. Create prisma/seed.ts file with sample data including 10+ academic papers across different domains (AI, ML, Computer Vision), sample user progress entries, and 3-5 learning paths. Include papers with realistic metadata, citations, and relationships. Set up 'npm run seed' script in package.json and configure Prisma to run seed on reset.",
+            "status": "pending",
+            "testStrategy": "Verify migration runs successfully, seed data populates correctly, validate all model relationships work as expected, and confirm database constraints are enforced properly"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Basic Authentication System",
+        "description": "Implement user authentication and session management using NextAuth.js",
+        "details": "Install and configure NextAuth.js with email/password provider. Create User model in database schema. Set up authentication pages (login, register, logout) with proper form validation. Implement middleware for protecting routes. Configure session management and JWT tokens. Add basic user profile functionality.",
+        "testStrategy": "Test user registration, login, logout flows. Verify protected routes redirect properly. Test session persistence and token expiration handling.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "PDF.js Integration and Single PDF Viewer",
+        "description": "Integrate PDF.js for rendering PDFs with basic navigation controls and zoom functionality",
+        "details": "Install PDF.js library and create PDFViewer component using PDF.js APIs. Implement PDF rendering with canvas-based approach for better performance. Add zoom controls (fit-to-width, fit-to-height, custom zoom levels), navigation controls (next/previous page, goto page), and loading states. Handle PDF loading errors gracefully. Optimize for PDFs up to 50MB as specified.",
+        "testStrategy": "Test PDF rendering with various file sizes and formats. Verify zoom and navigation controls work properly. Test error handling for corrupted or invalid PDFs.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Paper Upload and S3 Storage System",
+        "description": "Implement PDF upload functionality with S3-compatible storage and file management",
+        "details": "Set up AWS S3 or compatible storage service. Create file upload API routes with proper validation for PDF files. Implement drag-and-drop upload component with progress indicators. Add file size validation (max 50MB), virus scanning, and duplicate detection. Store file metadata in database and generate secure URLs for access. Implement CDN integration for optimized delivery.",
+        "testStrategy": "Test file upload with various PDF sizes, verify storage in S3, test download URLs work properly, and validate error handling for oversized files.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set up AWS S3 Bucket and CDN Configuration",
+            "description": "Configure AWS S3 bucket with appropriate permissions and CloudFront CDN for optimized PDF delivery",
+            "dependencies": [],
+            "details": "Create AWS S3 bucket with public read access for uploaded PDFs. Configure CORS settings to allow uploads from the Next.js application. Set up CloudFront CDN distribution for optimized global delivery. Configure bucket policies for secure access and proper file permissions. Install AWS SDK v3 and configure environment variables for AWS credentials and region settings.",
+            "status": "pending",
+            "testStrategy": "Verify S3 bucket creation, test CORS configuration with preflight requests, validate CloudFront distribution serves files correctly, and confirm proper security policies are in place"
+          },
+          {
+            "id": 2,
+            "title": "Create File Upload API Routes with Validation",
+            "description": "Implement Next.js API routes for handling PDF file uploads with comprehensive validation",
+            "dependencies": [],
+            "details": "Create POST /api/upload endpoint for handling multipart form data. Implement file type validation to ensure only PDF files are accepted. Add file size validation with 50MB maximum limit. Create presigned URL generation for direct S3 uploads. Implement duplicate detection using file hash comparison. Add proper error handling and response formatting for various failure scenarios.",
+            "status": "pending",
+            "testStrategy": "Test file upload with valid PDFs, verify rejection of non-PDF files, validate file size limits are enforced, test duplicate detection accuracy, and confirm proper error responses"
+          },
+          {
+            "id": 3,
+            "title": "Build Drag-and-Drop Upload Component",
+            "description": "Create React component with drag-and-drop functionality and upload progress indicators",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Build FileUploadZone component using react-dropzone for drag-and-drop functionality. Implement upload progress tracking with progress bars and percentage indicators. Add visual feedback for drag states (drag enter, drag over, drop). Create file preview with thumbnail generation for uploaded PDFs. Include cancel upload functionality and retry mechanisms for failed uploads. Add accessibility features for keyboard navigation.",
+            "status": "pending",
+            "testStrategy": "Test drag-and-drop on various browsers, verify progress indicators work accurately, validate visual feedback during drag operations, and test accessibility with keyboard-only navigation"
+          },
+          {
+            "id": 4,
+            "title": "Implement Virus Scanning and Security Validation",
+            "description": "Add virus scanning capabilities and security validation for uploaded PDF files",
+            "dependencies": [
+              "5.2"
+            ],
+            "details": "Integrate ClamAV or similar virus scanning service for uploaded files. Implement PDF content validation to detect malicious embedded content. Add file structure validation to ensure PDFs are not corrupted or malformed. Create quarantine system for suspicious files. Implement logging and monitoring for security events. Add rate limiting to prevent abuse of upload endpoints.",
+            "status": "pending",
+            "testStrategy": "Test virus scanning with known test files, verify malicious PDF detection, validate rate limiting prevents abuse, and confirm quarantine system isolates suspicious files"
+          },
+          {
+            "id": 5,
+            "title": "Create File Metadata Storage System",
+            "description": "Implement database storage for PDF metadata and generate secure access URLs",
+            "dependencies": [
+              "5.1",
+              "5.2"
+            ],
+            "details": "Extend Paper model in Prisma schema to include file storage metadata (s3_key, file_size, upload_date, content_hash). Create FileMetadata service for managing file information and generating signed URLs for secure access. Implement file cleanup routines for orphaned uploads. Add file version tracking and update mechanisms. Create API endpoints for retrieving file metadata and generating download links.",
+            "status": "pending",
+            "testStrategy": "Verify metadata storage in database, test signed URL generation and expiration, validate file cleanup removes orphaned files, and confirm secure access controls work properly"
+          },
+          {
+            "id": 6,
+            "title": "Build Upload Management Dashboard",
+            "description": "Create admin interface for managing uploaded files and monitoring storage usage",
+            "dependencies": [
+              "5.3",
+              "5.5"
+            ],
+            "details": "Build UploadManager component for viewing all uploaded files with search and filtering capabilities. Implement bulk operations (delete, move, re-scan). Add storage usage analytics with charts showing usage patterns and costs. Create file audit trail showing upload history and access logs. Implement file migration tools for moving between storage providers. Add export functionality for backup purposes.",
+            "status": "pending",
+            "testStrategy": "Test search and filtering functionality, verify bulk operations work correctly, validate usage analytics accuracy, and confirm audit trail captures all file operations"
+          },
+          {
+            "id": 7,
+            "title": "Integrate Upload System with Paper Management",
+            "description": "Connect file upload functionality with existing paper database and user interface",
+            "dependencies": [
+              "5.5",
+              "5.6"
+            ],
+            "details": "Modify paper creation workflow to include file upload step. Update Paper model relations to link uploaded files with paper records. Create paper import functionality that extracts metadata from uploaded PDFs using PDF parsing libraries. Implement automatic paper discovery for uploaded files without manual entry. Add file replacement functionality for updating existing papers. Integrate with existing sidebar and viewer components to display uploaded papers.",
+            "status": "pending",
+            "testStrategy": "Test end-to-end paper upload flow, verify metadata extraction accuracy, validate file replacement works without breaking references, and confirm integration with existing UI components"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Dual PDF Viewer Layout System",
+        "description": "Create side-by-side PDF viewer interface with main and reference viewer components",
+        "details": "Design responsive layout with main PDF viewer (left) and reference viewer (right). Implement resizable panels using react-resizable-panels or similar. Create ViewerContainer component that manages dual viewer state. Add viewer switching functionality, synchronization controls, and independent navigation for each viewer. Implement proper loading states and error boundaries for both viewers.",
+        "testStrategy": "Test dual viewer layout on different screen sizes, verify independent navigation works, test panel resizing functionality, and validate proper error handling when one viewer fails.",
+        "priority": "high",
+        "dependencies": [
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Sidebar Management System with Paper Lists",
+        "description": "Build sidebar component for organizing papers with status tracking and filtering",
+        "details": "Create responsive sidebar component with paper list, search functionality, and filter options (by status, domain, difficulty). Implement drag-and-drop paper organization with react-beautiful-dnd. Add paper status management (to-read, reading, completed) with visual indicators. Create quick navigation to open papers in either viewer. Include progress statistics and reading analytics.",
+        "testStrategy": "Test sidebar responsiveness, verify drag-and-drop functionality, validate filter and search operations, and test status update persistence.",
+        "priority": "medium",
+        "dependencies": [
+          5,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Reference Link Detection and Navigation",
+        "description": "Implement smart reference detection within PDFs and clickable navigation to referenced papers",
+        "details": "Develop reference extraction algorithm using regex patterns and NLP techniques to identify citations in PDF text. Create ClickableReference component that highlights citations and makes them interactive. Implement reference resolution to match citations with papers in database. Add bidirectional linking and backlink tracking. Create reference preview popover showing paper details on hover.",
+        "testStrategy": "Test citation detection accuracy across different paper formats, verify reference resolution works correctly, and test bidirectional navigation between papers.",
+        "priority": "medium",
+        "dependencies": [
+          6,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Learning Path System and Progress Tracking",
+        "description": "Implement learning roadmap functionality with curated paths and progress visualization",
+        "details": "Create LearningPathManager component for displaying and managing learning paths. Implement path recommendation engine based on user interests and current progress. Build progress tracking with visual indicators (progress bars, completion badges). Add prerequisite checking and path validation. Create custom path builder for advanced users. Include estimated reading times and difficulty progression.",
+        "testStrategy": "Test learning path creation and modification, verify progress tracking accuracy, validate prerequisite logic, and test path recommendation engine.",
+        "priority": "medium",
+        "dependencies": [
+          7,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Basic Paper Relationship Visualization",
+        "description": "Create 2D network graph showing citation relationships between papers using D3.js",
+        "details": "Install D3.js and create GraphVisualization component. Implement force-directed graph layout for paper citation networks. Add interactive node clicking to open papers, zoom and pan controls, and node filtering by domain/year. Create edge styling to show citation strength and directionality. Implement graph clustering for better organization of large networks. Add tooltip showing paper details on hover.",
+        "testStrategy": "Test graph rendering with various network sizes, verify interactive controls work properly, validate node clustering algorithms, and test performance with networks up to 1000 nodes as specified.",
+        "priority": "low",
+        "dependencies": [
+          8,
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-09T06:04:34.865Z",
+      "updated": "2025-08-09T06:04:34.865Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

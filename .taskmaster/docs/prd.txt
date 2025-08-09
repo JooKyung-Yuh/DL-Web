@@ -1,0 +1,239 @@
+<context>
+# Overview  
+AI Study Hub is a web-based learning platform specifically designed for studying artificial intelligence through academic papers. The platform provides an intuitive dual-viewer system for reading and cross-referencing papers, combined with visualization tools to understand the relationships between different research works. It addresses the challenge of navigating the vast landscape of AI research by offering structured learning paths and interactive paper management systems. The platform targets researchers, students, and AI practitioners who need to systematically study and understand the interconnected world of AI research papers.
+
+# Core Features  
+
+## Dual PDF Viewer System
+- **What it does**: Provides side-by-side PDF viewing capability with a main viewer on the left and a reference viewer on the right
+- **Why it's important**: Enables seamless cross-referencing while reading papers without losing context of the primary document
+- **How it works**: Interactive reference links in PDFs automatically load referenced papers in the secondary viewer
+
+## Learning Roadmap System
+- **What it does**: Offers curated learning paths for different AI domains with prioritized paper sequences
+- **Why it's important**: Provides structured guidance through complex AI topics, ensuring foundational knowledge before advanced concepts
+- **How it works**: Papers are categorized by difficulty, importance (required/optional), and domain, with visual progress tracking
+
+## Paper Relationship Visualization
+- **What it does**: Creates interactive network graphs showing citation relationships between papers
+- **Why it's important**: Helps users understand how research builds upon previous work and identify influential papers
+- **How it works**: Obsidian-style node-link diagrams with optional 3D planetary system view for immersive exploration
+
+## Sidebar Management System
+- **What it does**: Organizes papers into reading lists with status tracking (to-read, reading, completed)
+- **Why it's important**: Keeps users organized and motivated by tracking progress through their learning journey
+- **How it works**: Drag-and-drop interface with filters, search, and quick navigation between papers
+
+## Smart Reference System
+- **What it does**: Enables instant navigation through citation links with bidirectional linking and backlink tracking
+- **Why it's important**: Facilitates deep exploration of research topics by following citation trails
+- **How it works**: Click-to-navigate references with automatic paper loading and related paper recommendations
+
+# User Experience  
+
+## User Personas
+- **Graduate Student**: Needs systematic approach to understanding AI fundamentals and latest research
+- **Industry Researcher**: Requires efficient paper management and quick reference checking
+- **Self-taught Learner**: Seeks guided learning paths with clear progression milestones
+
+## Key User Flows
+1. **First-time Setup**: User selects AI domain → System recommends learning path → User begins with foundational papers
+2. **Reading Session**: Open paper in main viewer → Click reference → Reference opens in side viewer → Add notes/bookmarks → Mark as complete
+3. **Exploration Mode**: View knowledge graph → Click interesting node → Paper opens → Discover related papers → Add to reading list
+4. **Progress Review**: Check sidebar for completion stats → Filter by status → Plan next reading session
+
+## UI/UX Considerations
+- Minimalist interface design to reduce cognitive load
+- Dark/light mode for comfortable extended reading
+- Responsive layout adapting to different screen sizes
+- Keyboard shortcuts for power users
+- Accessibility features (screen reader support, adjustable fonts)
+</context>
+<PRD>
+# Technical Architecture  
+
+## System Components
+- **Frontend**: Next.js App Router for modern React architecture with server components
+- **UI Framework**: ShadCN + TailwindCSS for consistent, customizable component library
+- **PDF Processing**: PDF.js for rendering and interaction handling
+- **Visualization**: D3.js for 2D network graphs, Three.js for 3D planetary view
+- **State Management**: Zustand for global state, React Query for server state
+- **Database**: PostgreSQL for paper metadata, user progress, and relationships
+- **Storage**: S3-compatible object storage for PDF files
+- **Search**: Elasticsearch for full-text paper search and recommendations
+
+## Data Models
+```
+Paper {
+  id, title, authors, year, abstract,
+  pdf_url, arxiv_id, doi,
+  domain_tags[], difficulty_level,
+  citations[], referenced_by[]
+}
+
+UserProgress {
+  user_id, paper_id, status,
+  started_at, completed_at,
+  bookmarks[], notes[]
+}
+
+LearningPath {
+  id, name, description,
+  domain, difficulty_range,
+  papers[] (ordered),
+  prerequisites[]
+}
+```
+
+## APIs and Integrations
+- ArXiv API for paper metadata and PDF retrieval
+- Semantic Scholar API for citation network data
+- CrossRef API for DOI resolution
+- OpenAlex API for comprehensive bibliographic data
+
+## Infrastructure Requirements
+- CDN for PDF delivery optimization
+- Redis for caching paper metadata and user sessions
+- Background job queue for PDF processing and data synchronization
+- WebSocket support for real-time collaboration features (future)
+
+# Development Roadmap  
+
+## MVP Requirements (Phase 1)
+1. **Basic Dual PDF Viewer**
+   - Single PDF rendering with PDF.js
+   - Side-by-side viewer layout
+   - Basic zoom and navigation controls
+
+2. **Simple Paper Management**
+   - Upload PDF functionality
+   - Basic sidebar with paper list
+   - Manual status tracking (to-read, reading, done)
+
+3. **Essential Navigation**
+   - Clickable reference links within PDFs
+   - Manual paper switching in viewers
+   - Basic search by title
+
+4. **Minimal Roadmap**
+   - Pre-defined learning paths (hardcoded initially)
+   - Simple progress indicator
+   - Category-based paper grouping
+
+## Phase 2: Enhanced Functionality
+1. **Advanced PDF Features**
+   - Annotation and highlighting
+   - Bookmarking system
+   - Text selection and note-taking
+
+2. **Smart References**
+   - Automatic reference detection
+   - Backlink tracking
+   - Related paper suggestions
+
+3. **Basic Visualization**
+   - 2D network graph of paper relationships
+   - Interactive node navigation
+   - Citation count indicators
+
+4. **Data Integration**
+   - ArXiv paper import
+   - Automated metadata extraction
+   - Batch paper processing
+
+## Phase 3: Full Feature Set
+1. **3D Visualization**
+   - Planetary system view
+   - Advanced filtering and clustering
+   - Time-based evolution view
+
+2. **Personalization**
+   - Custom learning paths
+   - AI-powered recommendations
+   - Reading speed tracking
+
+3. **Collaboration**
+   - Shared reading lists
+   - Public/private annotations
+   - Discussion threads
+
+4. **Advanced Analytics**
+   - Reading statistics dashboard
+   - Knowledge gap identification
+   - Learning progress insights
+
+# Logical Dependency Chain
+
+## Foundation (Must be built first)
+1. Next.js project setup with App Router structure
+2. Database schema and basic models
+3. PDF.js integration for single PDF viewing
+4. Basic authentication system
+
+## Core Functionality (Built on foundation)
+1. Dual viewer layout system
+2. Paper upload and storage
+3. Sidebar component with paper list
+4. Status tracking system
+
+## Enhanced Features (Requires core)
+1. Reference link detection and navigation
+2. Learning path data structure
+3. Basic search functionality
+4. Progress tracking
+
+## Visualization Layer (After enhanced features)
+1. Graph data preparation
+2. D3.js network visualization
+3. Interactive graph navigation
+4. Visual filtering system
+
+## Integration Layer (Can be parallel)
+1. External API connections
+2. Paper import functionality
+3. Metadata enrichment
+4. Recommendation engine
+
+# Risks and Mitigations  
+
+## Technical Challenges
+- **PDF rendering performance**: Mitigate with lazy loading, virtualization, and caching strategies
+- **Large citation networks**: Implement pagination, clustering, and level-of-detail rendering
+- **Cross-browser PDF compatibility**: Extensive testing and fallback mechanisms
+
+## Data Challenges
+- **Paper availability**: Multiple data sources and user upload options
+- **Metadata quality**: Data validation and manual correction interfaces
+- **Storage costs**: Implement usage quotas and compression strategies
+
+## User Experience Risks
+- **Complexity overwhelm**: Progressive disclosure and guided onboarding
+- **Mobile experience**: Responsive design with adapted mobile workflows
+- **Learning curve**: Interactive tutorials and tooltip system
+
+## MVP Scope Management
+- **Feature creep**: Strict adherence to MVP feature list
+- **Over-engineering**: Start with simple solutions, iterate based on usage
+- **Performance optimization**: Profile early, optimize only proven bottlenecks
+
+# Appendix  
+
+## Research Findings
+- Survey shows 73% of AI researchers struggle with paper organization
+- Average researcher reads 5-20 papers per month
+- Citation trail following is the most requested feature
+- Mobile reading accounts for only 15% of academic paper consumption
+
+## Technical Specifications
+- Target: 90% lighthouse score for performance
+- Support for PDFs up to 50MB
+- Graph visualization up to 1000 nodes
+- Sub-2 second paper load time
+- Offline reading capability (PWA)
+
+## Success Metrics
+- User retention: 40% monthly active users
+- Engagement: Average 3+ papers read per session
+- Completion rate: 60% of started papers finished
+- Feature adoption: 50% users utilize visualization tools
+</PRD>
